@@ -99,4 +99,23 @@
 
         <form id="form-costo">
             <label for="partenza">Indirizzo di partenza:</label>
-            <input type="text" id="partenza" name="par
+            <input type="text" id="partenza" name="partenza" required><br>
+
+            <label for="arrivo">Indirizzo di arrivo:</label>
+            <input type="text" id="arrivo" name="arrivo" required><br>
+
+            <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
+        </form>
+
+        <h2>Risultato:</h2>
+        <p id="risultato"></p>
+
+        <div id="mappa"></div>
+    </div>
+
+    <!-- Carica la Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap"></script>
+
+</body>
+</html>
+
