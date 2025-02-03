@@ -56,11 +56,12 @@
             background-color: #45a049;
         }
 
-        /* Mappa responsiva */
+        /* Mappa responsiva - occuperà il 90% della larghezza */
         #mappa {
-            width: 100%;
-            height: 60vh;
-            margin-top: 20px;
+            width: 90%; /* Imposta la larghezza al 90% */
+            height: 60vh; /* Mantenere l'altezza del 60% della viewport */
+            margin: 20px auto; /* Centrare la mappa orizzontalmente */
+            border: 1px solid #ddd; /* Aggiungi un bordo sottile alla mappa */
         }
 
         /* CSS per dispositivi mobili */
@@ -73,6 +74,11 @@
             input, select, button {
                 padding: 12px;
             }
+
+            #mappa {
+                width: 100%; /* Su schermi piccoli, la mappa occuperà tutta la larghezza */
+                height: 50vh; /* Puoi ridurre l'altezza su dispositivi mobili se necessario */
+            }
         }
     </style>
 </head>
@@ -83,91 +89,4 @@
         <label for="partenza">Indirizzo di partenza:</label>
         <input type="text" id="partenza" name="partenza" required><br>
 
-        <label for="arrivo">Indirizzo di arrivo:</label>
-        <input type="text" id="arrivo" name="arrivo" required><br>
-
-        <label for="tipo-mezzo">Tipo di mezzo:</label>
-        <select id="tipo-mezzo">
-            <option value="A">Tipo A</option>
-            <option value="B">Tipo B</option>
-        </select><br>
-
-        <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
-    </form>
-
-    <h2>Risultato:</h2>
-    <p id="risultato"></p>
-
-    <!-- Area per la mappa -->
-    <div id="mappa"></div>
-
-    <script>
-        // Variabili globali
-        let map, directionsService, directionsRenderer;
-        let distance, costPerKm;
-
-        // Funzione di inizializzazione della mappa
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('mappa'), {
-                zoom: 7,
-                center: {lat: 41.9028, lng: 12.4964} // Posizione centrale (Roma)
-            });
-
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer();
-            directionsRenderer.setMap(map);
-        }
-
-        // Funzione per calcolare il costo del trasporto e il percorso
-        function calcolaCosto() {
-            let partenza = document.getElementById('partenza').value;
-            let arrivo = document.getElementById('arrivo').value;
-            let tipoMezzo = document.getElementById('tipo-mezzo').value;
-
-            // Impostare il costo per km in base al tipo di mezzo
-            if (tipoMezzo === 'A') {
-                costPerKm = 1.0;  // Tipo A: 1.0 euro per km
-            } else if (tipoMezzo === 'B') {
-                costPerKm = 1.5;  // Tipo B: 1.5 euro per km
-            }
-
-            let service = new google.maps.DistanceMatrixService();
-
-            service.getDistanceMatrix({
-                origins: [partenza],
-                destinations: [arrivo],
-                travelMode: 'DRIVING',
-                unitSystem: google.maps.UnitSystem.METRIC,
-            }, function(response, status) {
-                if (status === 'OK') {
-                    let distanceText = response.rows[0].elements[0].distance.text;
-                    distance = response.rows[0].elements[0].distance.value / 1000; // Converti in km
-                    let cost = distance * costPerKm;
-
-                    document.getElementById('risultato').innerHTML = `La distanza è di ${distanceText}. Costo del trasporto: €${cost.toFixed(2)}`;
-                    mostraPercorso(partenza, arrivo);
-                } else {
-                    document.getElementById('risultato').innerHTML = "Errore nel calcolo della distanza.";
-                }
-            });
-        }
-
-        // Funzione per tracciare il percorso sulla mappa
-        function mostraPercorso(partenza, arrivo) {
-            let request = {
-                origin: partenza,
-                destination: arrivo,
-                travelMode: 'DRIVING'
-            };
-
-            directionsService.route(request, function(result, status) {
-                if (status === 'OK') {
-                    directionsRenderer.setDirections(result);
-                } else {
-                    document.getElementById('risultato').innerHTML = "Errore nel calcolo del percorso.";
-                }
-            });
-        }
-    </script>
-</body>
-</html>
+        <label for="arrivo">Indir
