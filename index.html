@@ -1,11 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcolo Costo Trasporto</title>
-   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places" type="text/javascript"></script>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places&callback=initMap" async defer type="text/javascript"></script>
 </head>
 <body>
     <h1>Calcola il costo del trasporto</h1>
@@ -30,6 +30,10 @@
 
     <script>
         let distance, costPerKm;
+
+        function initMap() {
+            console.log('API di Google Maps caricata correttamente');
+        }
 
         function calcolaCosto() {
             let partenza = document.getElementById('partenza').value;
