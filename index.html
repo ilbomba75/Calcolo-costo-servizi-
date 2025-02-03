@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcolo Costo Trasporto</title>
 
-    <!-- Carica la Google Maps API con le librerie "places" e "directions" -->
+    <!-- Carica la Google Maps API con le librerie "places" -->
     <script>
-        // Funzione che inizializza la mappa
+        // Funzione per inizializzare la mappa
         function initMap() {
             // Crea una mappa centrata su Roma
             var map = new google.maps.Map(document.getElementById('mappa'), {
@@ -21,10 +21,10 @@
             directionsRenderer.setMap(map);
         }
 
-        // Funzione per caricare la Google Maps API
+        // Carica la Google Maps API
         function loadMapScript() {
             var script = document.createElement('script');
-            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap";
+            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places&callback=initMap";
             script.async = true;
             script.defer = true;
             document.body.appendChild(script);
