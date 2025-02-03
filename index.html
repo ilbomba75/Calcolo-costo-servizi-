@@ -9,15 +9,30 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap" async defer></script>
 
     <style>
-        /* Impostiamo il font principale e lo sfondo grigio */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0; /* Colore di sfondo grigio */
+        /* Styling per la mappa */
+        #mappa {
+            height: 400px;
+            width: 100%;
+            margin-top: 30px;
+            border-radius: 5px;
         }
 
-        /* Styling per il contenitore principale */
+        /* Aggiungi il logo della Croce Rossa Italiana in alto a destra */
+        #logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px; /* Imposta una dimensione ridotta per il logo */
+            height: auto;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Colore di sfondo grigio */
+            margin: 0;
+            padding: 0;
+        }
+
         .container {
             width: 90%;
             max-width: 800px;
@@ -62,7 +77,6 @@
             background-color: #45a049;
         }
 
-        /* Styling per il risultato */
         h2 {
             margin-top: 30px;
             color: #333;
@@ -74,9 +88,19 @@
             color: #444;
         }
 
-        /* Styling per la mappa */
-        #mappa {
-            height: 400px;
-            width: 100%;
-            margin-top: 30px;
-       
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo della Croce Rossa Italiana in alto a destra -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png" id="logo"
