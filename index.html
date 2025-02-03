@@ -47,6 +47,7 @@
             background-color: #f0f0f0;
             margin: 0;
             padding: 0;
+            position: relative; /* Necessario per posizionare il logo assolutamente */
         }
 
         .container {
@@ -58,9 +59,21 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        /* Posiziona il logo nell'angolo in alto a destra */
+        #logo-croce-rossa {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px; /* Puoi cambiare la dimensione */
+            height: auto;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Logo Croce Rossa Italiana -->
+    <img id="logo-croce-rossa" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png" alt="Logo Croce Rossa Italiana">
 
     <div class="container">
         <h1>Calcola il costo del trasporto</h1>
