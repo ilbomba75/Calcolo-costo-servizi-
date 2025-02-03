@@ -9,13 +9,10 @@
     <script>
         // Funzione per inizializzare la mappa
         function initMap() {
-            // Crea una mappa centrata su Roma
             var map = new google.maps.Map(document.getElementById('mappa'), {
                 zoom: 7,
                 center: { lat: 41.9028, lng: 12.4964 }
             });
-
-            // Crea i servizi di direzione
             var directionsService = new google.maps.DirectionsService();
             var directionsRenderer = new google.maps.DirectionsRenderer();
             directionsRenderer.setMap(map);
@@ -30,24 +27,38 @@
             document.body.appendChild(script);
         }
 
-        // Carica la mappa quando la finestra è pronta
         window.onload = loadMapScript;
+
+        // Funzione per calcolare il costo del trasporto
+        function calcolaCosto() {
+            // Prendi i valori dei campi di input
+            var partenza = document.getElementById('partenza').value;
+            var arrivo = document.getElementById('arrivo').value;
+
+            if (partenza && arrivo) {
+                // Esegui il calcolo (puoi implementare un vero calcolo qui)
+                var costo = Math.random() * 100; // Esempio di calcolo casuale
+
+                // Mostra il risultato
+                document.getElementById('risultato').innerHTML = `Il costo del trasporto da ${partenza} a ${arrivo} è di €${costo.toFixed(2)}`;
+            } else {
+                alert('Per favore, inserisci entrambi gli indirizzi');
+            }
+        }
     </script>
 
     <style>
-        /* Aggiungi stile per la mappa */
         #mappa {
             height: 400px;
             width: 100%;
         }
 
-        /* Altri stili per il layout */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
             padding: 0;
-            position: relative; /* Necessario per posizionare il logo assolutamente */
+            position: relative;
         }
 
         .container {
@@ -62,18 +73,25 @@
 
         /* Posiziona il logo nell'angolo in alto a destra */
         #logo-croce-rossa {
-            position: absolute;
+            position: fixed;
             top: 10px;
             right: 10px;
-            width: 50px; /* Puoi cambiare la dimensione */
+            width: 50px; 
             height: auto;
+            z-index: 1000;
+        }
+
+        @media (max-width: 600px) {
+            #logo-croce-rossa {
+                width: 30px; /* Logo più piccolo sui dispositivi mobili */
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- Logo Croce Rossa Italiana -->
-    <img id="logo-croce-rossa" src="https://caselle-torinese-api.municipiumapp.it/s3/1528/media/424976597_806033024897186_7964020672931828550_n.jpg" alt="Logo Croce Rossa Italiana">
+    <img id="logo-croce-rossa" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png" alt="Logo Croce Rossa Italiana">
 
     <div class="container">
         <h1>Calcola il costo del trasporto</h1>
