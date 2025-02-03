@@ -32,5 +32,115 @@
             script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap";
             script.async = true;
             script.defer = true;
-            document.body.appendChild(scr
+            document.body.appendChild(script);
+        }
+
+        window.onload = loadMapScript;
+
+        // Funzione per calcolare il costo del trasporto e mostrare il percorso
+        function calcolaCosto() {
+            // Ottieni gli indirizzi di partenza e arrivo
+            var partenza = document.getElementById('partenza').value;
+            var arrivo = document.getElementById('arrivo').value;
+
+            if (partenza && arrivo) {
+                // Configura la richiesta di direzione
+                var request = {
+                    origin: partenza,
+                    destination: arrivo,
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
+
+                // Calcola e mostra il percorso sulla mappa
+                directionsService.route(request, function(result, status) {
+                    if (status === google.maps.DirectionsStatus.OK) {
+                        // Mostra il percorso
+                        directionsRenderer.setDirections(result);
+
+                        // Ottieni la distanza in km
+                        var distanza = result.routes[0].legs[0].distance.text;
+                        var durata = result.routes[0].legs[0].duration.text;
+
+                        // Mostra il risultato
+                        document.getElementById('risultato').innerHTML = 
+                            `Il costo del trasporto da ${partenza} a ${arrivo} è di €${(Math.random() * 100).toFixed(2)}.<br>` +
+                            `Distanza: ${distanza}, Durata: ${durata}`;
+                    } else {
+                        alert("Impossibile calcolare il percorso.");
+                    }
+                });
+            } else {
+                alert("Per favore, inserisci entrambi gli indirizzi");
+            }
+        }
+    </script>
+
+    <style>
+        #mappa {
+            height: 400px;
+            width: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Posiziona il logo nell'angolo in alto a destra */
+        #logo-croce-rossa {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: auto;
+            z-index: 1000;
+        }
+
+        @media (max-width: 600px) {
+            #logo-croce-rossa {
+                width: 30px; /* Logo più piccolo sui dispositivi mobili */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo Croce Rossa Italiana -->
+    <img id="logo-croce-rossa" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png" alt="Logo Croce Rossa Italiana">
+
+    <div class="container">
+        <h1>Calcola il costo del trasporto</h1>
+
+        <form id="form-costo">
+            <label for="partenza">Indirizzo di partenza:</label>
+            <input type="text" id="partenza" name="partenza" required><br>
+
+            <label for="arrivo">Indirizzo di arrivo:</label>
+            <input type="text" id="arrivo" name="arrivo" required><br>
+
+            <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
+        </form>
+
+        <h2>Risultato:</h2>
+        <p id="risultato"></p>
+
+        <div id="mappa"></div>
+    </div>
+
+</body>
+</html>
+
 
