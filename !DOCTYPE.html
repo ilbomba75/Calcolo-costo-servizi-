@@ -8,59 +8,6 @@
 </head>
 <body>
     <h1>Calcola il costo del trasporto</h1>
-    <form id="form-costo">
-        <label for="partenza">Indirizzo di partenza:</label>
-        <input type="text" id="partenza" name="partenza" required><br><br>
-        
-        <label for="arrivo">Indirizzo di arrivo:</label>
-        <input type="text" id="arrivo" name="arrivo" required><br><br>
-        
-        <label for="tipo-mezzo">Tipo di mezzo:</label>
-        <select id="tipo-mezzo">
-            <option value="A">Tipo A</option>
-            <option value="B">Tipo B</option>
-        </select><br><br>
-        
-        <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
-    </form>
-
-    <h2>Risultato:</h2>
-    <p id="risultato"></p>
-
-    <script>
-        let distance, costPerKm;
-
-        function calcolaCosto() {
-            let partenza = document.getElementById('partenza').value;
-            let arrivo = document.getElementById('arrivo').value;
-            let tipoMezzo = document.getElementById('tipo-mezzo').value;
-
-            // Impostare il costo per km in base al tipo di mezzo
-            if (tipoMezzo === 'A') {
-                costPerKm = 1.0;  // Ad esempio, 1.0 euro per km per il tipo A
-            } else if (tipoMezzo === 'B') {
-                costPerKm = 1.5;  // Ad esempio, 1.5 euro per km per il tipo B
-            }
-
-            let service = new google.maps.DistanceMatrixService();
-
-            service.getDistanceMatrix({
-                origins: [partenza],
-                destinations: [arrivo],
-                travelMode: 'DRIVING',
-                unitSystem: google.maps.UnitSystem.METRIC,
-            }, function(response, status) {
-                if (status === 'OK') {
-                    let distanceText = response.rows[0].elements[0].distance.text;
-                    distance = response.rows[0].elements[0].distance.value / 1000; // Convertire in chilometri
-                    let cost = distance * costPerKm;
-
-                    document.getElementById('risultato').innerHTML = `La distanza è di ${distanceText}. Costo del trasporto: €${cost.toFixed(2)}`;
-                } else {
-                    document.getElementById('risultato').innerHTML = "Errore nel calcolo della distanza.";
-                }
-            });
-        }
-    </script>
+    
 </body>
 </html>
