@@ -6,7 +6,17 @@
     <title>Calcolo Costo Trasporto</title>
 
     <!-- Carica la Google Maps API con la libreria Directions e Places -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap" async defer></script>
+    <script>
+      function loadMapScript() {
+          var script = document.createElement('script');
+          script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap";
+          script.async = true;
+          script.defer = true;
+          document.body.appendChild(script);
+      }
+
+      window.onload = loadMapScript;
+    </script>
 
     <style>
         /* Styling per la mappa */
@@ -103,4 +113,74 @@
 <body>
 
     <!-- Logo della Croce Rossa Italiana in alto a destra -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png" id="logo"
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png" id="logo" alt="Logo Croce Rossa Italiana">
+
+    <div class="container">
+        <h1>Calcola il costo del trasporto</h1>
+
+        <form id="form-costo">
+            <label for="partenza">Indirizzo di partenza:</label>
+            <input type="text" id="partenza" name="partenza" required><br>
+
+            <label for="arrivo">Indirizzo di arrivo:</label>
+            <input type="text" id="arrivo" name="arrivo" required><br>
+
+            <label for="tipo-mezzo">Tipo di mezzo:</label>
+            <select id="tipo-mezzo">
+                <option value="A">Tipo A</option>
+                <option value="B">Tipo B</option>
+            </select><br>
+
+            <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
+        </form>
+
+        <h2>Risultato:</h2>
+        <p id="risultato"></p>
+
+        <div id="mappa"></div>
+    </div>
+
+    <script>
+        let map, directionsService, directionsRenderer;
+
+        // Funzione per inizializzare la mappa
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('mappa'), {
+                zoom: 7,
+                center: { lat: 41.9028, lng: 12.4964 } // Roma, Italia
+            });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+        }
+
+        // Funzione per calcolare il costo del trasporto
+        function calcolaCosto() {
+            let partenza = document.getElementById('partenza').value;
+            let arrivo = document.getElementById('arrivo').value;
+            let tipoMezzo = document.getElementById('tipo-mezzo').value;
+
+            let costPerKm;
+            if (tipoMezzo === 'A') {
+                costPerKm = 1.0;  // Costo per km per il tipo A
+            } else if (tipoMezzo === 'B') {
+                costPerKm = 1.5;  // Costo per km per il tipo B
+            }
+
+            let service = new google.maps.DistanceMatrixService();
+
+            service.getDistanceMatrix({
+                origins: [partenza],
+                destinations: [arrivo],
+                travelMode: 'DRIVING',
+                unitSystem: google.maps.UnitSystem.METRIC,
+            }, function (response, status) {
+                if (status === 'OK') {
+                    let distanceText = response.rows[0].elements[0].distance.text;
+                    let distance = response.rows[0].elements[0].distance.value / 1000; // Convertire in km
+                    let cost = distance * costPerKm;
+
+                    document.getElementById('risultato').innerHTML = `La distanza è di ${distanceText}. Costo del trasporto: €${cost.toFixed(2)}`;
+                    mostraPercorso(partenza, arrivo);
+               
