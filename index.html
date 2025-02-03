@@ -5,40 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcolo Costo Trasporto</title>
 
-    <!-- Carica la Google Maps API con la libreria Directions e Places -->
+    <!-- Carica la Google Maps API con le librerie "places" e "directions" -->
     <script>
-      function loadMapScript() {
-          var script = document.createElement('script');
-          script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap";
-          script.async = true;
-          script.defer = true;
-          document.body.appendChild(script);
-      }
+        // Funzione che inizializza la mappa
+        function initMap() {
+            // Crea una mappa centrata su Roma
+            var map = new google.maps.Map(document.getElementById('mappa'), {
+                zoom: 7,
+                center: { lat: 41.9028, lng: 12.4964 }
+            });
 
-      window.onload = loadMapScript;
+            // Crea i servizi di direzione
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+        }
+
+        // Funzione per caricare la Google Maps API
+        function loadMapScript() {
+            var script = document.createElement('script');
+            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap";
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+        }
+
+        // Carica la mappa quando la finestra è pronta
+        window.onload = loadMapScript;
     </script>
 
     <style>
-        /* Styling per la mappa */
+        /* Aggiungi stile per la mappa */
         #mappa {
             height: 400px;
             width: 100%;
-            margin-top: 30px;
-            border-radius: 5px;
         }
 
-        /* Aggiungi il logo della Croce Rossa Italiana in alto a destra */
-        #logo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px; /* Imposta una dimensione ridotta per il logo */
-            height: auto;
-        }
-
+        /* Altri stili per il layout */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Colore di sfondo grigio */
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
         }
@@ -52,68 +58,9 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            color: #555;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        h2 {
-            margin-top: 30px;
-            color: #333;
-        }
-
-        #risultato {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #444;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            button {
-                width: 100%;
-            }
-        }
     </style>
 </head>
 <body>
-
-    <!-- Logo della Croce Rossa Italiana in alto a destra -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png" id="logo" alt="Logo Croce Rossa Italiana">
 
     <div class="container">
         <h1>Calcola il costo del trasporto</h1>
@@ -125,12 +72,6 @@
             <label for="arrivo">Indirizzo di arrivo:</label>
             <input type="text" id="arrivo" name="arrivo" required><br>
 
-            <label for="tipo-mezzo">Tipo di mezzo:</label>
-            <select id="tipo-mezzo">
-                <option value="A">Tipo A</option>
-                <option value="B">Tipo B</option>
-            </select><br>
-
             <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
         </form>
 
@@ -140,47 +81,5 @@
         <div id="mappa"></div>
     </div>
 
-    <script>
-        let map, directionsService, directionsRenderer;
-
-        // Funzione per inizializzare la mappa
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('mappa'), {
-                zoom: 7,
-                center: { lat: 41.9028, lng: 12.4964 } // Roma, Italia
-            });
-
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer();
-            directionsRenderer.setMap(map);
-        }
-
-        // Funzione per calcolare il costo del trasporto
-        function calcolaCosto() {
-            let partenza = document.getElementById('partenza').value;
-            let arrivo = document.getElementById('arrivo').value;
-            let tipoMezzo = document.getElementById('tipo-mezzo').value;
-
-            let costPerKm;
-            if (tipoMezzo === 'A') {
-                costPerKm = 1.0;  // Costo per km per il tipo A
-            } else if (tipoMezzo === 'B') {
-                costPerKm = 1.5;  // Costo per km per il tipo B
-            }
-
-            let service = new google.maps.DistanceMatrixService();
-
-            service.getDistanceMatrix({
-                origins: [partenza],
-                destinations: [arrivo],
-                travelMode: 'DRIVING',
-                unitSystem: google.maps.UnitSystem.METRIC,
-            }, function (response, status) {
-                if (status === 'OK') {
-                    let distanceText = response.rows[0].elements[0].distance.text;
-                    let distance = response.rows[0].elements[0].distance.value / 1000; // Convertire in km
-                    let cost = distance * costPerKm;
-
-                    document.getElementById('risultato').innerHTML = `La distanza è di ${distanceText}. Costo del trasporto: €${cost.toFixed(2)}`;
-                    mostraPercorso(partenza, arrivo);
-               
+</body>
+</html>
