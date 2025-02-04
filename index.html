@@ -27,11 +27,21 @@
         function calcolaCosto() {
             var partenza = document.getElementById('partenza').value;
             var arrivo = document.getElementById('arrivo').value;
+            var tappa1 = document.getElementById('tappa1').value;
+            var tappa2 = document.getElementById('tappa2').value;
+            var mezzo = document.querySelector('input[name="mezzo"]:checked').value;
+            var tipoTrasporto = document.querySelector('input[name="tipo"]:checked').value;
+
+            // Crea una lista dei waypoint, inclusi eventuali intermedi
+            var waypoints = [];
+            if (tappa1) waypoints.push({ location: tappa1, stopover: true });
+            if (tappa2) waypoints.push({ location: tappa2, stopover: true });
 
             if (partenza && arrivo) {
                 var request = {
                     origin: partenza,
                     destination: arrivo,
+                    waypoints: waypoints,
                     travelMode: google.maps.TravelMode.DRIVING
                 };
 
@@ -43,7 +53,7 @@
                         var durata = result.routes[0].legs[0].duration.text;
 
                         document.getElementById('risultato').innerHTML = 
-                            `Il costo del trasporto da ${partenza} a ${arrivo} è di €${(Math.random() * 100).toFixed(2)}.<br>` +
+                            `Il costo del trasporto da ${partenza} a ${arrivo} con mezzo ${mezzo} (${tipoTrasporto}) è di €${(Math.random() * 100).toFixed(2)}.<br>` +
                             `Distanza: ${distanza}, Durata: ${durata}`;
                     } else {
                         alert("Impossibile calcolare il percorso.");
@@ -56,17 +66,17 @@
     </script>
 
     <style>
-        #mappa {
-            height: 400px;
-            width: 100%;
-        }
-
+        /* Stili per la pagina */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             margin: 0;
             padding: 0;
             position: relative;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Croce_Rossa_Italiana_logo.svg/1200px-Croce_Rossa_Italiana_logo.svg.png');
+            background-position: top right;
+            background-repeat: no-repeat;
+            background-size: 150px;
         }
 
         .container {
@@ -76,9 +86,65 @@
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
 
+        h1, h2 {
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Mappa */
+        #mappa {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* Stili per la selezione del mezzo e tipo di trasporto */
+        .radio-group {
+            margin: 10px 0;
+        }
+
+        .radio-group input {
+            margin-right: 10px;
+        }
+
+        .optional-step {
+            display: none;
+        }
+
+        .optional-step input {
+            width: 80%;
+        }
+
+        /* Aggiungi un effetto di sfondo logo */
         #logo-croce-rossa {
             position: fixed;
             top: 10px;
@@ -104,6 +170,34 @@
             <label for="arrivo">Indirizzo di arrivo:</label>
             <input type="text" id="arrivo" name="arrivo" required><br>
 
+            <!-- Nuove tappe intermedie opzionali -->
+            <div class="optional-step" id="step1">
+                <label for="tappa1">Tappa Intermedia 1:</label>
+                <input type="text" id="tappa1" name="tappa1">
+            </div>
+            <div class="optional-step" id="step2">
+                <label for="tappa2">Tappa Intermedia 2:</label>
+                <input type="text" id="tappa2" name="tappa2">
+            </div>
+
+            <!-- Mezzo di trasporto -->
+            <div class="radio-group">
+                <label>Tipo di mezzo:</label><br>
+                <input type="radio" id="tipoA" name="mezzo" value="Tipo A" checked>
+                <label for="tipoA">Tipo A</label><br>
+                <input type="radio" id="tipoB" name="mezzo" value="Tipo B">
+                <label for="tipoB">Tipo B</label>
+            </div>
+
+            <!-- Selezione Visita o Dimissione -->
+            <div class="radio-group">
+                <label>Tipo di trasporto:</label><br>
+                <input type="radio" id="visita" name="tipo" value="Visita" checked>
+                <label for="visita">Visita</label><br>
+                <input type="radio" id="dimissione" name="tipo" value="Dimissione">
+                <label for="dimissione">Dimissione</label>
+            </div>
+
             <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
         </form>
 
@@ -118,4 +212,3 @@
 
 </body>
 </html>
-
