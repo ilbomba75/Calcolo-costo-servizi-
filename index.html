@@ -67,6 +67,14 @@
                 alert("Per favore, inserisci entrambi gli indirizzi");
             }
         }
+
+        // Funzione per mostrare/nascondere le tappe intermedie
+        function toggleTappe() {
+            var steps = document.querySelectorAll('.optional-step');
+            for (var i = 0; i < steps.length; i++) {
+                steps[i].style.display = steps[i].style.display === 'block' ? 'none' : 'block';
+            }
+        }
     </script>
 
     <style>
@@ -191,6 +199,9 @@
                 <label for="tappa4">Tappa Intermedia 4:</label>
                 <input type="text" id="tappa4" name="tappa4">
             </div>
+
+            <!-- Pulsante per aggiungere tappe -->
+            <button type="button" onclick="toggleTappe()">Aggiungi Tappe</button><br><br>
 
             <!-- Mezzo di trasporto -->
             <div class="radio-group">
