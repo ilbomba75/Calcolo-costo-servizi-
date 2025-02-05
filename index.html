@@ -72,7 +72,11 @@
         function toggleTappe() {
             var steps = document.querySelectorAll('.optional-step');
             for (var i = 0; i < steps.length; i++) {
-                steps[i].style.display = steps[i].style.display === 'block' ? 'none' : 'block';
+                if (steps[i].style.display === 'none' || steps[i].style.display === '') {
+                    steps[i].style.display = 'block'; // Mostra le tappe
+                } else {
+                    steps[i].style.display = 'none'; // Nascondi le tappe
+                }
             }
         }
     </script>
