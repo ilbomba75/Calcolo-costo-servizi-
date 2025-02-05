@@ -30,7 +30,7 @@
             var tappa1 = document.getElementById('tappa1').value;
             var tappa2 = document.getElementById('tappa2').value;
             var mezzo = document.getElementById('mezzo').value;
-            var tipoTrasporto = document.querySelector('input[name="tipo"]:checked').value;
+            var tipoTrasporto = document.getElementById('tipo-servizio').value;
 
             // Crea una lista dei waypoint, inclusi eventuali intermedi
             var waypoints = [];
@@ -176,14 +176,12 @@
                 <option value="Tipo C">Tipo C</option>
             </select><br>
 
-            <!-- Selezione Visita o Dimissione -->
-            <div class="radio-group">
-                <label>Tipo di trasporto:</label><br>
-                <input type="radio" id="visita" name="tipo" value="Visita" checked>
-                <label for="visita">Visita</label><br>
-                <input type="radio" id="dimissione" name="tipo" value="Dimissione">
-                <label for="dimissione">Dimissione</label>
-            </div>
+            <!-- Selezione tipo di servizio (Visita o Dimissione) -->
+            <label for="tipo-servizio">Tipo di servizio:</label>
+            <select id="tipo-servizio" name="tipo-servizio">
+                <option value="Visita">Visita</option>
+                <option value="Dimissione">Dimissione</option>
+            </select><br>
 
             <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
         </form>
@@ -199,5 +197,3 @@
 
 </body>
 </html>
-
-
