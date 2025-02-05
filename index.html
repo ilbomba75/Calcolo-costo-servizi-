@@ -29,17 +29,13 @@
             var arrivo = document.getElementById('arrivo').value;
             var tappa1 = document.getElementById('tappa1').value;
             var tappa2 = document.getElementById('tappa2').value;
-            var tappa3 = document.getElementById('tappa3').value;
-            var tappa4 = document.getElementById('tappa4').value;
-            var mezzo = document.querySelector('input[name="mezzo"]:checked').value;
+            var mezzo = document.getElementById('mezzo').value;
             var tipoTrasporto = document.querySelector('input[name="tipo"]:checked').value;
 
             // Crea una lista dei waypoint, inclusi eventuali intermedi
             var waypoints = [];
             if (tappa1) waypoints.push({ location: tappa1, stopover: true });
             if (tappa2) waypoints.push({ location: tappa2, stopover: true });
-            if (tappa3) waypoints.push({ location: tappa3, stopover: true });
-            if (tappa4) waypoints.push({ location: tappa4, stopover: true });
 
             if (partenza && arrivo) {
                 var request = {
@@ -163,25 +159,45 @@
             <label for="partenza">Indirizzo di partenza:</label>
             <input type="text" id="partenza" name="partenza" required><br>
 
-            <label for="arrivo">Indirizzo di arrivo:</label>
-            <input type="text" id="arrivo" name="arrivo" required><br>
-
-            <!-- Tappe intermedie opzionali -->
             <label for="tappa1">Tappa Intermedia 1 (opzionale):</label>
             <input type="text" id="tappa1" name="tappa1"><br>
 
             <label for="tappa2">Tappa Intermedia 2 (opzionale):</label>
             <input type="text" id="tappa2" name="tappa2"><br>
 
-            <label for="tappa3">Tappa Intermedia 3 (opzionale):</label>
-            <input type="text" id="tappa3" name="tappa3"><br>
+            <label for="arrivo">Indirizzo di arrivo:</label>
+            <input type="text" id="arrivo" name="arrivo" required><br>
 
-            <label for="tappa4">Tappa Intermedia 4 (opzionale):</label>
-            <input type="text" id="tappa4" name="tappa4"><br>
+            <!-- Selezione tipo di mezzo -->
+            <label for="mezzo">Tipo di mezzo:</label>
+            <select id="mezzo" name="mezzo">
+                <option value="Tipo A">Tipo A</option>
+                <option value="Tipo B">Tipo B</option>
+                <option value="Tipo C">Tipo C</option>
+            </select><br>
 
-            <!-- Mezzo di trasporto -->
+            <!-- Selezione Visita o Dimissione -->
             <div class="radio-group">
-                <label>Tipo di mezzo:</label><br>
-                <input type="radio" i
+                <label>Tipo di trasporto:</label><br>
+                <input type="radio" id="visita" name="tipo" value="Visita" checked>
+                <label for="visita">Visita</label><br>
+                <input type="radio" id="dimissione" name="tipo" value="Dimissione">
+                <label for="dimissione">Dimissione</label>
+            </div>
+
+            <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
+        </form>
+
+        <h2>Risultato:</h2>
+        <p id="risultato"></p>
+
+        <div id="mappa"></div>
+    </div>
+
+    <!-- Carica la Google Maps API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap"></script>
+
+</body>
+</html>
 
 
