@@ -67,18 +67,6 @@
                 alert("Per favore, inserisci entrambi gli indirizzi");
             }
         }
-
-        // Funzione per mostrare/nascondere le tappe intermedie
-        function toggleTappe() {
-            var steps = document.querySelectorAll('.optional-step');
-            for (var i = 0; i < steps.length; i++) {
-                if (steps[i].style.display === 'none' || steps[i].style.display === '') {
-                    steps[i].style.display = 'block'; // Mostra le tappe
-                } else {
-                    steps[i].style.display = 'none'; // Nascondi le tappe
-                }
-            }
-        }
     </script>
 
     <style>
@@ -152,14 +140,6 @@
             margin-right: 10px;
         }
 
-        .optional-step {
-            display: none;
-        }
-
-        .optional-step input {
-            width: 80%;
-        }
-
         /* Aggiungi un effetto di sfondo logo */
         #logo-croce-rossa {
             position: fixed;
@@ -186,57 +166,22 @@
             <label for="arrivo">Indirizzo di arrivo:</label>
             <input type="text" id="arrivo" name="arrivo" required><br>
 
-            <!-- Nuove tappe intermedie opzionali -->
-            <div class="optional-step" id="step1">
-                <label for="tappa1">Tappa Intermedia 1:</label>
-                <input type="text" id="tappa1" name="tappa1">
-            </div>
-            <div class="optional-step" id="step2">
-                <label for="tappa2">Tappa Intermedia 2:</label>
-                <input type="text" id="tappa2" name="tappa2">
-            </div>
-            <div class="optional-step" id="step3">
-                <label for="tappa3">Tappa Intermedia 3:</label>
-                <input type="text" id="tappa3" name="tappa3">
-            </div>
-            <div class="optional-step" id="step4">
-                <label for="tappa4">Tappa Intermedia 4:</label>
-                <input type="text" id="tappa4" name="tappa4">
-            </div>
+            <!-- Tappe intermedie opzionali -->
+            <label for="tappa1">Tappa Intermedia 1 (opzionale):</label>
+            <input type="text" id="tappa1" name="tappa1"><br>
 
-            <!-- Pulsante per aggiungere tappe -->
-            <button type="button" onclick="toggleTappe()">Aggiungi Tappe</button><br><br>
+            <label for="tappa2">Tappa Intermedia 2 (opzionale):</label>
+            <input type="text" id="tappa2" name="tappa2"><br>
+
+            <label for="tappa3">Tappa Intermedia 3 (opzionale):</label>
+            <input type="text" id="tappa3" name="tappa3"><br>
+
+            <label for="tappa4">Tappa Intermedia 4 (opzionale):</label>
+            <input type="text" id="tappa4" name="tappa4"><br>
 
             <!-- Mezzo di trasporto -->
             <div class="radio-group">
                 <label>Tipo di mezzo:</label><br>
-                <input type="radio" id="tipoA" name="mezzo" value="Tipo A" checked>
-                <label for="tipoA">Tipo A</label><br>
-                <input type="radio" id="tipoB" name="mezzo" value="Tipo B">
-                <label for="tipoB">Tipo B</label>
-            </div>
+                <input type="radio" i
 
-            <!-- Selezione Visita o Dimissione -->
-            <div class="radio-group">
-                <label>Tipo di trasporto:</label><br>
-                <input type="radio" id="visita" name="tipo" value="Visita" checked>
-                <label for="visita">Visita</label><br>
-                <input type="radio" id="dimissione" name="tipo" value="Dimissione">
-                <label for="dimissione">Dimissione</label>
-            </div>
-
-            <button type="button" onclick="calcolaCosto()">Calcola Costo</button>
-        </form>
-
-        <h2>Risultato:</h2>
-        <p id="risultato"></p>
-
-        <div id="mappa"></div>
-    </div>
-
-    <!-- Carica la Google Maps API -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3pJwkWocpBgHfeKjxwHenIqz97jGgYp4&libraries=places,directions&callback=initMap"></script>
-
-</body>
-</html>
 
